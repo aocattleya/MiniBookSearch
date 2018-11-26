@@ -1,0 +1,24 @@
+{
+    "settings": {
+        "analysis": {
+            "tokenizer": {
+                "kuromoji_search": {
+                    "type": "kuromoji_tokenizer",
+                    "mode": "search"
+                }
+            },
+            "analyzer": {
+                "my_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "kuromoji_search",
+                    "char_filter": [
+                        "icu_normalizer"
+                    ],
+                    "filter": [
+                        "kuromoji_part_of_speech"
+                    ]
+                }
+            }
+        }
+    }
+}

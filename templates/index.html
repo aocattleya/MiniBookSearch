@@ -1,0 +1,197 @@
+<!doctype html>
+
+<html lang="jp">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="/static/img/favicon.png" >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main.css">
+
+    <title>簡易書籍管理システム</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="app">
+        <div id="title">
+            <h1>書籍管理システム</h1>
+        </div>
+
+        <ul class="tabMenu">
+            <li @click="isSelect('1')" v-bind:class="{'active': isActive === '1'}">書籍追加</li>
+            <li @click="isSelect('2')" v-bind:class="{'active': isActive === '2'}">書籍検索</li>
+        </ul>
+
+        <div class="tabContents">
+            <div v-if="isActive === '1'">
+                <div class="form-row">
+                    <div class="col col-md-12">
+                        <textarea class="form-control" v-model="regist_isbn" cols="13" id="regist_isbn" name="regist_isbn" rows="1" placeholder="ISBNコードを入力してください"></textarea>
+                    </div>
+                    <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" v-on:click="regist">登録</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div v-else-if="isActive === '2'">
+                <div id="detail-form">
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">isbnコード</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="isbn" cols="13" id="isbn" name="isbn" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">タイトル</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="title" cols="13" id="title" name="title" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">著者</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="author" cols="13" id="author" name="author" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">出版社</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="publisher" cols="13" id="publisher" name="publisher" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">出版日</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="publishedDate" cols="13" id="publishedDate" name="publishedDate" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col col-md-2">
+                            <label class="col-form-label">詳細</label>
+                        </div>
+
+                        <div class="col col-md-10">
+                            <textarea class="form-control" v-model="description" cols="13" id="description" name="description" rows="1"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col col-md-5">
+                            <button id="search-button" v-on:click="search" class="btn btn-primary">検索</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div id="container">
+
+        <hr id="search_delimiter">
+        <h3 id="search_result">検索結果</h3>
+        <div v-for="(result, index) in results" id="search_content">
+            <div id="search_title">
+                <div id="search_no">{{ index + 1 }}</div>
+                <div id="search_btn_wrap">
+                    <button class="btn btn-default" data-toggle="modal" v-bind:data-target="'#my-detail-modal' + index" v-bind:data-whatever="index" id="search_btn">{{ result.body.title }}</button>
+                </div>
+            </div>
+            <div id="search_body">
+                <div id="search_contents"><span v-for="author in result.body.authors">{{author}} </span></div>
+            </div>
+        </div>
+
+        <template v-for="(result, index) in results">
+            <div v-bind:id="'my-detail-modal' + index" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detail-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detail-modal-label">書籍詳細</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th class="m_title">書名</th>
+                                        <td class="m_body">{{ result.body.title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>詳細</th>
+                                        <td>{{ result.body.description }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>書影</th>
+                                        <td><img :src="result.body.thumbnail"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>著者</th>
+                                        <td><span v-for="author in result.body.authors">{{author}} </span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>出版社</th>
+                                        <td>{{ result.body.publisher }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>出版日</th>
+                                        <td>{{ result.body.publishedDate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>isbn</th>
+                                        <td>{{ result.body.isbn }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>score</th>
+                                        <td>{{ result.score }}</td>
+                                    </tr>
+                            </table>
+                        </div>  <!-- eod of modal-body -->
+
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/axios.js"></script>
+    <script src="/static/js/vue.js"></script>
+    <script src="/static/main.js"></script>
+</body>
+</html>
