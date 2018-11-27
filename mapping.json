@@ -1,5 +1,5 @@
 {
-    "googlebooks": {
+    "opendb": {
         "properties": {
             "isbn" : {
                 "type": "text",
@@ -10,28 +10,24 @@
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "authors": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
             "publisher": {
                 "type": "text",
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "publishedDate": {
-                "type": "text",
-                "index": true
-            },
-            "description": {
+            "author": {
                 "type": "text",
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "thumbnail": {
+            "pubdate": {
                 "type": "text",
-                "index": false
+                "index": true
+            },
+            "cover": {
+                "type": "text",
+                "index": true,
+                "analyzer": "my_analyzer"
             }
         }
     }

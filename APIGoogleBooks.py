@@ -40,19 +40,20 @@ class APIGoogleBooks:
         # 必要な情報だけを抜き出して新しいJSONを作成する
         # Elasticsearchの項目（'mapping.json'で定義）と項目を揃えること
         json_data = {}
-        json_data['title'] = json_api_data['items'][0]['volumeInfo']['title']
-        json_data['authors'] = json_api_data['items'][0]['volumeInfo']['authors']
-        json_data['publisher'] = json_api_data['items'][0]['volumeInfo']['publisher']
-        json_data['publishedDate'] = json_api_data['items'][0]['volumeInfo']['publishedDate']
-        json_data['description'] = json_api_data['items'][0]['volumeInfo']['description']
-        json_data['thumbnail'] = json_api_data['items'][0]['volumeInfo']['imageLinks']['thumbnail']
+        json_data['isbn'] = isbn
+        json_data['title'] = json_api_data['summary']['title']
+        json_data['publisher'] = json_api_data['summary']['publisher']
+        json_data['author'] = json_api_data['summary']['author']
+        json_data['pubdate'] = json_api_data['summary']['pubdate']
+        json_data['cover'] = json_api_data['summary']['cover']
+        # json_data['cover'] = json_api_data['items'][0]['volumeInfo']['imageLinks']['cover']
 
         # isbnコードが込み入った形で格納されている
-        industryIdentifiers = json_api_data['items'][0]['volumeInfo']['industryIdentifiers']
-        for item in industryIdentifiers:
-            if item['type'] == 'ISBN_13':
-                json_data['isbn'] = item['identifier']
-                break
+        # industryIdentifiers = json_api_data['items'][0]['volumeInfo']['industryIdentifiers']
+        # for item in industryIdentifiers:
+        #     if item['type'] == 'ISBN_13':
+        #         json_data['isbn'] = item['identifier']
+        #         break
 
         return json_data
         
@@ -71,7 +72,7 @@ class APIGoogleBooks:
             呼び出しに失敗した場合はNone
         '''
         # WebAPIのURLに引数文字列を追加
-        url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn
+        url = 'https://api.openbd.jp/v1/get?isbn=' + isbn
 
         # WebAPIの呼び出し
         response = requests.get(url)

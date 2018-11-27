@@ -2,6 +2,7 @@ from APIGoogleBooks import APIGoogleBooks
 from ElasticsearchWrapper import ElasticsearchWrapper
 from flask import Flask, render_template, request, jsonify
 import json
+import logging
 
 class CustomFlask(Flask):
     '''
@@ -22,6 +23,12 @@ app = CustomFlask(__name__)
 #app = Flask(__name__)
 
 app.config['JSON_AS_ASCII'] = False    # jsonifyで日本語が文字化けする場合の対処
+
+# ロギング
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)-8s %(module)-18s %(funcName)-10s %(lineno)4s: %(message)s'
+)
 
 @app.route("/")
 def index():
@@ -51,6 +58,10 @@ def regist():
 	'''
 	# パラメータからISBNコードを取得
 	isbn = request.args.get('isbn', default=None)
+	logging.debug(isbn)
+
+
+
 	# 必要な情報を取得する
 	json_data = APIGoogleBooks().get_json(isbn) if isbn else {}
 
@@ -59,7 +70,7 @@ def regist():
 	
 	if len(json_data) > 0:
 		# Elasticsearch
-		es = ElasticsearchWrapper('googlebooks', 'googlebooks-index')
+		es = ElasticsearchWrapper('opendb', 'opendb-index')
 		# 追加
 		es.insert_one(json_data)
 
@@ -76,10 +87,10 @@ def search():
 	# パラメータからISBNコードを取得
 	isbn = request.args.get('isbn', default=None)
 	title = request.args.get('title', default=None)
-	author = request.args.get('author', default=None)
 	publisher = request.args.get('publisher', default=None)
-	publishedDate = request.args.get('publishedDate', default=None)
-	description = request.args.get('description', default=None)
+	author = request.args.get('author', default=None)
+	pubdate = request.args.get('pubdate', default=None)
+	cover = request.args.get('cover', default=None)
 
 	# 検索の項目名、項目値のDictionary
 	items = {}
@@ -87,17 +98,17 @@ def search():
 		items['isbn'] = isbn
 	if title != None:
 		items['title'] = title
-	if author != None:
-		items['authors'] = author
 	if publisher != None:
 		items['publisher'] = publisher
-	if publishedDate != None:
-		items['publishedDate'] = publishedDate
-	if description != None:
-		items['description'] = description
+	if author != None:
+		items['author'] = author
+	if pubdate != None:
+		items['pubdate'] = pubdate
+	if cover != None:
+		items['cover'] = cover
 
 	# Elasticsearch
-	es = ElasticsearchWrapper('googlebooks', 'googlebooks-index')
+	es = ElasticsearchWrapper('opendb', 'opendb-index')
 	# 検索
 	json_data = es.search_and(items)
 
@@ -107,4 +118,4 @@ def search():
 	return response
 
 if __name__ == "__main__":
-	app.run(debug=False, host='0.0.0.0', port=8080)
+	app.run(debug=True, host='0.0.0.0', port=8080)

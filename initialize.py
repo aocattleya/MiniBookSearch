@@ -11,7 +11,7 @@ import json
 
 if __name__ == '__main__':
     # 
-    es = ElasticsearchWrapper("googlebooks", "googlebooks-index")
+    es = ElasticsearchWrapper("opendb", "opendb-index")
 
     # すでに存在するインデックスを削除する
     # 存在しないインデックスに対して呼び出すとExceptionなのでpassさせておく

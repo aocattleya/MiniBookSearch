@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/main.css">
 
-    <title>簡易書籍管理システム</title>
+    <title>OpenDB書籍管理システム</title>
 </head>
 
 <body>
     <div class="container-fluid" id="app">
         <div id="title">
-            <h1>書籍管理システム</h1>
+            <h1>OpenDB書籍管理システム</h1>
         </div>
 
         <ul class="tabMenu">
@@ -29,7 +29,7 @@
             <div v-if="isActive === '1'">
                 <div class="form-row">
                     <div class="col col-md-12">
-                        <textarea class="form-control" v-model="regist_isbn" cols="13" id="regist_isbn" name="regist_isbn" rows="1" placeholder="ISBNコードを入力してください"></textarea>
+                        <textarea class="form-control" v-model="regist_isbn" cols="13" id="regist_isbn" name="regist_isbn" rows="1" placeholder="ISBNコードを入力"></textarea>
                     </div>
                     <div class="col-md-12">&nbsp;</div>
                     <div class="col-md-12">
