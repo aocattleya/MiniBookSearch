@@ -34,18 +34,18 @@ class APIGoogleBooks:
             return None
         
         # 検索結果が0だった場合
-        if json_api_data['totalItems'] == 0:
+        if json_api_data[0] == None:
             return None
         # 呼び出しが成功した場合
         # 必要な情報だけを抜き出して新しいJSONを作成する
         # Elasticsearchの項目（'mapping.json'で定義）と項目を揃えること
         json_data = {}
-        json_data['isbn'] = isbn
-        json_data['title'] = json_api_data['summary']['title']
-        json_data['publisher'] = json_api_data['summary']['publisher']
-        json_data['author'] = json_api_data['summary']['author']
-        json_data['pubdate'] = json_api_data['summary']['pubdate']
-        json_data['cover'] = json_api_data['summary']['cover']
+        # json_data['isbn'] = isbn
+        json_data['title'] = json_api_data[0]['summary']['title']
+        json_data['publisher'] = json_api_data[0]['summary']['publisher']
+        json_data['author'] = json_api_data[0]['summary']['author']
+        json_data['pubdate'] = json_api_data[0]['summary']['pubdate']
+        json_data['cover'] = json_api_data[0]['summary']['cover']
         # json_data['cover'] = json_api_data['items'][0]['volumeInfo']['imageLinks']['cover']
 
         # isbnコードが込み入った形で格納されている
