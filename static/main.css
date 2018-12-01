@@ -95,9 +95,9 @@ hr#search_delimiter {
 
 /* Result
 ================================================== */
-div#container {
+/* div#container {
 	display: none;
-}
+} */
 
 h3#search_result {
 	text-align: center;
@@ -130,8 +130,8 @@ div#search_btn_wrap {
 	padding: 0.5em 1em;
 	text-decoration: none;
 	background: #f7f7f7;
-	border-left: solid 6px #045FB4;  //#ff7c5c;
-	color: #0174DF;    //#ff7c5c;
+	border-left: solid 6px #045FB4;  	/* //#ff7c5c; */
+	color: #0174DF;    	/* //#ff7c5c; */
 	font-weight: bold;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
 
@@ -171,7 +171,7 @@ th.m_title {
 th {
 	color: #045FB4;
 }
-td.m_body {
-}
+/* td.m_body {
+} */
 
 
