@@ -15,16 +15,16 @@
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "author": {
+            "pubdate": {
                 "type": "text",
                 "index": true,
                 "analyzer": "my_analyzer"
             },
-            "pubdate": {
+            "cover": {
                 "type": "text",
                 "index": true
             },
-            "cover": {
+            "author": {
                 "type": "text",
                 "index": true,
                 "analyzer": "my_analyzer"
