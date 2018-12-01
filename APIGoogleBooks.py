@@ -40,12 +40,12 @@ class APIGoogleBooks:
         # 必要な情報だけを抜き出して新しいJSONを作成する
         # Elasticsearchの項目（'mapping.json'で定義）と項目を揃えること
         json_data = {}
-        # json_data['isbn'] = isbn
+        json_data['isbn'] = json_api_data[0]['summary']['isbn']
         json_data['title'] = json_api_data[0]['summary']['title']
         json_data['publisher'] = json_api_data[0]['summary']['publisher']
-        json_data['author'] = json_api_data[0]['summary']['author']
         json_data['pubdate'] = json_api_data[0]['summary']['pubdate']
         json_data['cover'] = json_api_data[0]['summary']['cover']
+        json_data['author'] = json_api_data[0]['summary']['author']
         # json_data['cover'] = json_api_data['items'][0]['volumeInfo']['imageLinks']['cover']
 
         # isbnコードが込み入った形で格納されている
