@@ -70,7 +70,7 @@ def regist():
 	
 	if len(json_data) > 0:
 		# Elasticsearch
-		es = ElasticsearchWrapper('opendb', 'opendb-index')
+		es = ElasticsearchWrapper('openbd', 'openbd-index')
 		# 追加
 		es.insert_one(json_data)
 
@@ -108,7 +108,7 @@ def search():
 		items['cover'] = cover
 
 	# Elasticsearch
-	es = ElasticsearchWrapper('opendb', 'opendb-index')
+	es = ElasticsearchWrapper('openbd', 'openbd-index')
 	# 検索
 	json_data = es.search_and(items)
 
