@@ -23,6 +23,7 @@
         <ul class="tabMenu">
             <li @click="isSelect('1')" v-bind:class="{'active': isActive === '1'}">書籍追加</li>
             <li @click="isSelect('2')" v-bind:class="{'active': isActive === '2'}">書籍検索</li>
+            <li @click="isSelect('3')" v-bind:class="{'active': isActive === '3'}">一覧表示</li>
         </ul>
 
         <div class="tabContents">
@@ -74,26 +75,6 @@
 
                     <div class="form-row">
                         <div class="col col-md-2">
-                            <label class="col-form-label">発売日</label>
-                        </div>
-
-                        <div class="col col-md-10">
-                            <textarea class="form-control" v-model="pubdate" cols="13" id="pubdate" name="pubdate" rows="1"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="col col-md-2">
-                            <label class="col-form-label">画像</label>
-                        </div>
-
-                        <div class="col col-md-10">
-                            <textarea class="form-control" v-model="cover" cols="13" id="cover" name="cover" rows="1"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="col col-md-2">
                             <label class="col-form-label">著者</label>
                         </div>
 
@@ -101,6 +82,12 @@
                             <textarea class="form-control" v-model="author" cols="13" id="author" name="author" rows="1"></textarea>
                         </div>
                     </div>
+
+                    
+                        
+
+                    
+
                     <div class="form-row">
                         <div class="col col-md-5">
                             <button id="search-button" v-on:click="search" class="btn btn-primary">検索</button>
@@ -108,6 +95,84 @@
                     </div>
                 </div>
 
+                <div v-if="results != null && results.length != 0">
+
+                    <div id="container">
+
+                        <hr id="search_delimiter">
+                        <h3 id="search_result">検索結果</h3>
+                        <div v-for="(result, index) in results" id="search_content">
+                            <div id="search_title">
+                                <div id="search_no">{{ index + 1 }}</div>
+                                <div id="search_btn_wrap">
+                                    <button class="btn btn-default" data-toggle="modal" v-bind:data-target="'#my-detail-modal' + index"
+                                        v-bind:data-whatever="index" id="search_btn">{{ result.body.title }}</button>
+                                </div>
+                            </div>
+                            <div id="search_body">
+                                <div id="search_contents"><span v-for="publisher in result.body.publishers">{{publisher}}
+                                    </span></div>
+                            </div>
+                        </div>
+
+                        <template v-for="(result, index) in results">
+                            <div v-bind:id="'my-detail-modal' + index" class="modal fade" tabindex="-1" role="dialog"
+                                aria-labelledby="detail-modal-label" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="detail-modal-label">書籍詳細</h5>
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="m_title">書名</th>
+                                                        <td class="m_body">{{ result.body.title }}</td>
+                                                    </tr>
+
+                                                    <th>表紙</th>
+                                                    <td><img :src="result.body.cover"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th>著者</th>
+                                                        <td>{{ result.body.author }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                    <tr>
+                                                        <th>出版社</th>
+                                                        <td>{{ result.body.publisher }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>出版年月</th>
+                                                        <td>{{ result.body.pubdate }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>isbn</th>
+                                                        <td>{{ result.body.isbn }}</td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <th>score</th>
+                                                        <td>{{ result.score }}</td>
+                                                    </tr> -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div v-else-if="isActive === '3'">
+                <!-- <div>一覧表示</div> -->
+                <button class="btn btn-primary" v-on:click="list">一覧表示</button>
                 <div v-if="results != null && results.length != 0">
 
                     <div id="container">

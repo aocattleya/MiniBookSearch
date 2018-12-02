@@ -71,6 +71,8 @@ def regist():
 	if len(json_data) > 0:
 		# Elasticsearch
 		es = ElasticsearchWrapper('openbd', 'openbd-index')
+		
+		json_data["dummy"] = "1"
 		# 追加
 		es.insert_one(json_data)
 
@@ -106,6 +108,25 @@ def search():
 		items['cover'] = cover
 	if author != None:
 		items['author'] = author
+
+	# Elasticsearch
+	es = ElasticsearchWrapper('openbd', 'openbd-index')
+	# 検索
+	json_data = es.search_and(items)
+
+	# dict型をJSON型のレスポンスに変換
+	response = jsonify(json_data)
+
+	return response
+
+@app.route("/list")
+def list():
+	'''
+	検索
+	'''
+	# 検索の項目名、項目値のDictionary
+	items = {}
+	items["dummy"] = "1"
 
 	# Elasticsearch
 	es = ElasticsearchWrapper('openbd', 'openbd-index')
