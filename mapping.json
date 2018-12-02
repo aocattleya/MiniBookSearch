@@ -28,6 +28,10 @@
                 "type": "text",
                 "index": true,
                 "analyzer": "my_analyzer"
+            },
+            "dummy": {
+                "type": "text",
+                "index": true
             }
         }
     }
