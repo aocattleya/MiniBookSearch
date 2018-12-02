@@ -45,7 +45,7 @@ ul.tabMenu  {
 	width: auto;
 	padding: 10px 20px;
 	color: #fff;
-	background-color: #007db9;
+	background-color: #55c500;
 	cursor: pointer;
 	border-radius: 5px 0px 0px 5px;
 	display: flex;
@@ -60,16 +60,16 @@ ul.tabMenu  {
 	font-weight: bolder;
 	font-size: x-large;
 	text-shadow: 1px 2px 3px #90cdc9;
-	color: #007db9;
+	color: #55c500;
 	background-color: #fff;
-	border: 1px solid #007db9;
+	border: 1px solid #55c500;
 
 }
 
 .tabContents {
 	width: 100%;
 	padding: 20px;
-	border: 1px solid #007db9;
+	border: 1px solid #55c500;
 	border-radius: 10px;
 	box-shadow: 4px 4px 4px rgba(0,0,0,0.4);
 }
@@ -130,8 +130,8 @@ div#search_btn_wrap {
 	padding: 0.5em 1em;
 	text-decoration: none;
 	background: #f7f7f7;
-	border-left: solid 6px #045FB4;  	/* //#ff7c5c; */
-	color: #0174DF;    	/* //#ff7c5c; */
+	border-left: solid 6px #55c500;  	/* //#ff7c5c; */
+	color: #3f9200;    	/* //#ff7c5c; */
 	font-weight: bold;
 	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
 
@@ -169,7 +169,7 @@ th.m_title {
 	white-space: nowrap;
 }
 th {
-	color: #045FB4;
+	color: #3f9200;
 }
 /* td.m_body {
 } */
