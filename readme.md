@@ -1,25 +1,30 @@
 ![booksearch](https://user-images.githubusercontent.com/39142850/49347869-33b14780-f6e5-11e8-9e8b-7e9a270c58c8.png)
 
 - [やったこと](#アンカー1)
+- [全体的な仕組み](#アンカー5)
 - [APIとは](#アンカーa)
 - [開発環境](#アンカー2)
 - [アプリの機能](#アンカー3)
 - [新しく実装した機能](#アンカー4)
-- [全体的な仕組み](#アンカー5)
 - [基本的な修正箇所](#アンカー6)
 - [苦戦した事](#アンカー7)
 - [全体を通して学べた事](#アンカー8)
 
 <h2 id="アンカー1">:green_book: やったこと</h2>
 
-[@michihosokawa](https://github.com/michihosokawa)さんの『[書籍管理システム](https://github.com/michihosokawa/MiniBookManagementSystem)』  
-このアプリで使用されているAPIを「**GoogleBooksAPI**」から「**openBD**」へ書き換える  
-　  
+[@michihosokawa](https://github.com/michihosokawa)さんの『 [書籍管理システム(GitHub) ](https://github.com/michihosokawa/MiniBookManagementSystem)』  
+- 使用されているAPIを「**GoogleBooksAPI**」から「**openBD**」へ書き換える  
+- 新機能の『一覧表示』機能を追加する  
+
+<h2 id="アンカー5">:green_book: 全体的な仕組み</h2>
+
+![minibooksearch](https://user-images.githubusercontent.com/39142850/49472249-4b5a0e80-f852-11e8-9022-4596ca655e19.png)
+
 <h2 id="アンカーa">:globe_with_meridians: APIとは</h2>
 
 >Application Programming Interfaceの略  
->何かしらのサービス提供者が、そのサービスを利用するために提供するインタフェースのこと
-
+>何かしらのサービス提供者が、そのサービスを利用するために提供するインタフェースのこと  
+　  
 openBDの場合は、書誌情報や書影をだれでも自由に使える  
 例：https://api.openbd.jp/v1/get?isbn=9784822292270
 
@@ -72,14 +77,13 @@ ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略�
 
 これまでに登録した書籍をすべて表示させる機能です。
 
-<h2 id="アンカー5">:green_book: 全体的な仕組み</h2>
 
-画像
 
 <h2 id="アンカー6">:green_book: 基本的な修正箇所</h2>
 
 ### ■ Elasticsearchの定義ファイルの変更  
-- mapping.json
+- mapping.json  
+どちらも書籍データなのでisbn,titleなどいくつか名前が同じ
 
 ```javascript
 {
@@ -179,7 +183,7 @@ json_data = {}
 - app.py
 
 ```python
- # 77行目前後
+ # 本家77行目前後
 isbn = request.args.get('isbn', default=None)
 	title = request.args.get('title', default=None)
 	author = request.args.get('author', default=None)
@@ -226,7 +230,7 @@ isbn = request.args.get('isbn', default=None)
 >![2018-12-04 14 31 13](https://user-images.githubusercontent.com/39142850/49421014-72243080-f7d1-11e8-844a-8f64c612dbf2.png)
 
 @michisohokawaさんのGoogleBooksAPIの場合は、Vue.js用に「 {} 」をfor文を使い「 [] 」へ変換している  
-つまり不要コードを探し削除して関連してくるエラーを消していかなくてはいけない
+つまり不要コードを探し削除して関連してくるエラーを消していく
 
 - main.js(109行あたり)
 ```javascript
