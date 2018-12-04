@@ -1,4 +1,4 @@
-from APIGoogleBooks import APIGoogleBooks
+from openBD import openBD
 from ElasticsearchWrapper import ElasticsearchWrapper
 from flask import Flask, render_template, request, jsonify
 import json
@@ -45,7 +45,7 @@ def get():
 	# パラメータからISBNコードを取得
 	isbn = request.args.get('isbn', default=None)
 	# 必要な情報を取得する
-	json_data = APIGoogleBooks().get_json(isbn) if isbn else {}
+	json_data = openBD().get_json(isbn) if isbn else {}
 	# dict型をJSON型のレスポンスに変換
 	response = jsonify(json_data)
 
@@ -63,7 +63,7 @@ def regist():
 
 
 	# 必要な情報を取得する
-	json_data = APIGoogleBooks().get_json(isbn) if isbn else {}
+	json_data = openBD().get_json(isbn) if isbn else {}
 
 	if json_data == None:
 		json_data = {}

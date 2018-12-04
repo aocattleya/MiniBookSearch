@@ -43,7 +43,7 @@ var app = new Vue({
         console.log(response);
 
         if (response.data.length == 0) {
-          alert("登録できませんでした（GoogleBooksに見つかりませんでした）");
+          alert("登録できませんでした（openBDに見つかりませんでした）");
           return;
         }
 

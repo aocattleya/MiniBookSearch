@@ -1,9 +1,9 @@
 import json
 import requests
 
-class APIGoogleBooks:
+class openBD:
     '''
-    Google Books API
+    openBD API
     '''
     def __init__(self):
         '''
@@ -13,7 +13,7 @@ class APIGoogleBooks:
 
     def get_json(self, isbn:str) -> dict:
         '''
-        Google Books API の呼び出しで戻ってきた書籍データから、必要な情報を抜き出して整形する
+        openBD API の呼び出しで戻ってきた書籍データから、必要な情報を抜き出して整形する
 
         Parameters
         ----------
@@ -59,7 +59,7 @@ class APIGoogleBooks:
         
     def __call_web_api(self, isbn:str) -> dict:
         '''
-        Google Books API を呼び出して、ISBNに対応するJSONデータを受け取る
+        openBD API を呼び出して、ISBNに対応するJSONデータを受け取る
 
         Parameters
         ----------
@@ -93,6 +93,6 @@ class APIGoogleBooks:
         return json_data
 
 if __name__ == "__main__":
-    api = APIGoogleBooks()
+    api = openBD()
     data = api.get_json('9784797389463')
     print(data)
