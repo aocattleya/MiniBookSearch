@@ -2,6 +2,7 @@
 
 - [やったこと](#アンカー1)
 - [全体的な仕組み](#アンカー5)
+- [動作環境](#アンカー9)
 - [APIとは](#アンカーa)
 - [開発環境](#アンカー2)
 - [アプリの機能](#アンカー3)
@@ -20,11 +21,24 @@
 
 ![minibooksearch](https://user-images.githubusercontent.com/39142850/49472249-4b5a0e80-f852-11e8-9022-4596ca655e19.png)
 
+<h2 id="アンカー9">:green_book: 動作環境</h2>
+
+- Java1.8
+	- JREではなくJDK
+- Elasticsearch6.3
+	- 2つのプラグインをインストール  
+		- ICU Analysis（プラグイン）  
+		- Japanese (Kuromoji) Analysis（プラグイン）
+	- http://localhost:9200 でアクセスできることを確認する
+- pip install elasticsearch
+- pip install Flask
+
 <h2 id="アンカーa">:globe_with_meridians: APIとは</h2>
 
 >Application Programming Interfaceの略  
 >何かしらのサービス提供者が、そのサービスを利用するために提供するインタフェースのこと  
-　  
+
+
 openBDの場合は、書誌情報や書影をだれでも自由に使える  
 例：https://api.openbd.jp/v1/get?isbn=9784822292270
 
