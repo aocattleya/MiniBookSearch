@@ -21,7 +21,9 @@
 
 ![minibooksearch](https://user-images.githubusercontent.com/39142850/49472249-4b5a0e80-f852-11e8-9022-4596ca655e19.png)
 
-<h2 id="アンカー9">:green_book: 動作環境</h2>
+<h2 id="アンカー9">:green_book: 環境</h2>
+
+Flask ＋ Elasticsearchで動作しています。
 
 - Java1.8
 	- JREではなくJDK
@@ -80,7 +82,7 @@ ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略�
 ![knsk](https://user-images.githubusercontent.com/39142850/49414266-2021e180-f7b6-11e8-9afc-0fbed0b580d3.png)
 
 - **詳細画面**  
-結果をクリックすると「openDB」から受け取ったAPIの書籍情報が表示される
+結果をクリックすると「open」から受け取ったAPIの書籍情報が表示される
 
 ![knskkk](https://user-images.githubusercontent.com/39142850/49414765-d6d29180-f7b7-11e8-91f5-91308a8f732e.png)
 
@@ -237,7 +239,7 @@ isbn = request.args.get('isbn', default=None)
 
 <h2 id="アンカー7">:green_book: 苦戦した事</h2>
 
-### １、戻ってくるJSONデータの型が「GoogleBooksAPI」と「openBD」で違う  
+### １、戻ってくるJSONデータの型が「GoogleBooksAPI」と「openBD」で違う」  
 - GoogleBooksAPIの場合、「 { 」から始まる  
 > ![2018-12-04 14 31 40](https://user-images.githubusercontent.com/39142850/49421013-72243080-f7d1-11e8-8ac4-f66918d83010.png)
 - openBDの場合、「 [ 」から始まる  
@@ -265,10 +267,99 @@ JSONのマッピングや定義部分をYouTube用に書き換えればいい
 
 
 ### ２、一覧表示機能の実装
-- 今回新たに実装してとても苦戦したところ
 
-画像
+![itiran](https://user-images.githubusercontent.com/39142850/49508986-877b8680-f8c7-11e8-9c8e-9f338c1e923e.png)
 
+
+## 仕組み
+
+書籍を登録する時に 1 というダミーの値をそれぞれに忍ばせる。  
+一覧表示ボタンで呼び出した時に 1 という値が付いている書籍情報を呼び出す。  
+つまりすべてが表示される。
+
+- mapping.json
+
+```python
+            },
+            "author": {
+                "type": "text",
+                "index": true,
+                "analyzer": "my_analyzer"
+            },
+            "dummy": {
+                "type": "text",
+                "index": true
+            }
+        }
+    }
+}
+```
+
+- app.py
+
+登録時にダミーの値 1 を忍ばせる
+
+```python
+def regist():
+	'''
+	ISBNに対応する書籍情報を取得して、Elasticsearchに登録
+	'''
+	# パラメータからISBNコードを取得
+	isbn = request.args.get('isbn', default=None)
+	# logging.debug(isbn)
+
+
+
+	# 必要な情報を取得する
+	json_data = openBD().get_json(isbn) if isbn else {}
+
+	if json_data == None:
+		json_data = {}
+	
+	if len(json_data) > 0:
+		# Elasticsearch
+		es = ElasticsearchWrapper('openbd', 'openbd-index')
+		
+		json_data["dummy"] = "1"　　 # ここに 1 を忍ばせる
+    
+		# 追加
+		es.insert_one(json_data)
+
+	# dict型をJSON型のレスポンスに変換
+	response = jsonify(json_data)
+
+	return response
+```
+
+- app.py
+
+1 という値のある書籍すべてを表示させる
+
+```python
+@app.route("/list")
+def list():
+	'''
+	検索
+	'''
+	# 検索の項目名、項目値のDictionary
+	items = {}
+	items["dummy"] = "1"
+
+	# Elasticsearch
+	es = ElasticsearchWrapper('openbd', 'openbd-index')
+	# 検索
+	json_data = es.search_and(items)
+
+	# dict型をJSON型のレスポンスに変換
+	response = jsonify(json_data)
+
+	return response
+```
+
+#### @michihosokawaさんから一言「設計として美しくない」
+
+書籍すべてを表示させる為に本来あるべきでない情報を登録時に混ぜているので、  
+あまり設計として好ましくないらしい、本来はElasticsearchの全検索search_allを使えば良さそうです。([先輩のapp.py](https://github.com/asuetomi/BookDB/blob/master/app.py) 一番下あたり)
 
 <h2 id="アンカー8">:thought_balloon: 全体を通して学べた事</h2>
 内容
