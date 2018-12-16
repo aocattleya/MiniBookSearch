@@ -15,22 +15,22 @@
 
 [@michihosokawa](https://github.com/michihosokawa)さんの『 [書籍管理システム(GitHub) ](https://github.com/michihosokawa/MiniBookManagementSystem)』  
 - 使用されているAPIを「**GoogleBooksAPI**」から「**openBD**」へ書き換える  
-- 新機能の『一覧表示』機能を追加する  
+- 新機能『**一覧表示機能**』を追加する  
 
 <h2 id="アンカー5">:green_book: 全体的な仕組み</h2>
 
 ![minibooksearch](https://user-images.githubusercontent.com/39142850/49472249-4b5a0e80-f852-11e8-9022-4596ca655e19.png)
 
-<h2 id="アンカー9">:green_book: 環境</h2>
+<h2 id="アンカー9">:green_book: 動作環境</h2>
 
-Flask ＋ Elasticsearchで動作しています。
+Python（Flask） ＋ Elasticsearch　内部で『openBD』を呼び出して動作しています。
 
 - Java1.8
 	- JREではなくJDK
 - Elasticsearch6.3
 	- 2つのプラグインをインストール  
-		- ICU Analysis（プラグイン）  
-		- Japanese (Kuromoji) Analysis（プラグイン）
+		- ICU Analysis
+		- Japanese (Kuromoji) Analysis
 	- http://localhost:9200 でアクセスできることを確認する
 - pip install elasticsearch
 - pip install Flask
@@ -41,7 +41,7 @@ Flask ＋ Elasticsearchで動作しています。
 >何かしらのサービス提供者が、そのサービスを利用するために提供するインタフェースのこと  
 
 
-openBDの場合は、書誌情報や書影をだれでも自由に使える  
+openBDの場合は、書籍情報や書影をだれでも自由に使える  
 例：https://api.openbd.jp/v1/get?isbn=9784822292270
 
 ![2018-12-04 17 09 05](https://user-images.githubusercontent.com/39142850/49427693-5461c600-f7e7-11e8-8cd6-fffb9737f73e.png)
@@ -63,6 +63,9 @@ Elastic社が開発しているオープンソースの全文検索エンジン
 - **Vue.js**  
 オープンソースのJavaScriptフレームワーク
 
+- **VSCode（Visual Studio Code）**  
+おすすめのソースコードエディタ、これで書いてます。
+
 <h2 id="アンカー3">:green_book: アプリの機能</h2>
 
 - **ISBNコードを入力して書籍の登録**  
@@ -82,7 +85,7 @@ ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略�
 ![knsk](https://user-images.githubusercontent.com/39142850/49414266-2021e180-f7b6-11e8-9afc-0fbed0b580d3.png)
 
 - **詳細画面**  
-結果をクリックすると「open」から受け取ったAPIの書籍情報が表示される
+結果をクリックすると「openBD」から受け取ったAPIの書籍情報が表示される
 
 ![knskkk](https://user-images.githubusercontent.com/39142850/49414765-d6d29180-f7b7-11e8-91f5-91308a8f732e.png)
 
@@ -239,7 +242,7 @@ isbn = request.args.get('isbn', default=None)
 
 <h2 id="アンカー7">:green_book: 苦戦した事</h2>
 
-### １、戻ってくるJSONデータの型が「GoogleBooksAPI」と「openBD」で違う」  
+### １、戻ってくるJSONデータの型が「GoogleBooksAPI」と「openBD」で違う  
 - GoogleBooksAPIの場合、「 { 」から始まる  
 > ![2018-12-04 14 31 40](https://user-images.githubusercontent.com/39142850/49421013-72243080-f7d1-11e8-8ac4-f66918d83010.png)
 - openBDの場合、「 [ 」から始まる  
@@ -271,7 +274,7 @@ JSONのマッピングや定義部分をYouTube用に書き換えればいい
 ![itiran](https://user-images.githubusercontent.com/39142850/49508986-877b8680-f8c7-11e8-9c8e-9f338c1e923e.png)
 
 
-## 仕組み
+### 仕組み
 
 書籍を登録する時に 1 というダミーの値をそれぞれに忍ばせる。  
 一覧表示ボタンで呼び出した時に 1 という値が付いている書籍情報を呼び出す。  
@@ -356,10 +359,34 @@ def list():
 	return response
 ```
 
-#### @michihosokawaさんから一言「設計として美しくない」
+#### この一覧表示機能について
 
-書籍すべてを表示させる為に本来あるべきでない情報を登録時に混ぜているので、  
-あまり設計として好ましくないらしい、本来はElasticsearchの全検索search_allを使えば良さそうです。([先輩のapp.py](https://github.com/asuetomi/BookDB/blob/master/app.py) 一番下あたり)
+@michihosokawa師匠「設計としては美しくない」
 
-<h2 id="アンカー8">:thought_balloon: 全体を通して学べた事</h2>
-内容
+書籍すべてを表示させる為にあるべきでない情報を登録時に忍ばせているので、  
+設計としてはあまり好ましくない、今回は2日という期間内で作るという目標があったが、  
+本来は、Elasticsearchの全検索search_allを使って全検索させれば良さそうです。（[参考](https://github.com/asuetomi/BookDB/blob/master/app.py)）
+
+<h2 id="アンカー8">:thought_balloon: 全体を通しての感想</h2>
+
+#### ■ 開発合宿
+
+・今回やってみたのは開発合宿での成果物としての取り組みでした。  
+　そして書籍管理システムを使って初めてのPythonのコードで作られたアプリに、  
+　真面目に向き合う事が出来てとても良い経験になりました。
+
+・合宿ではエラー地獄に陥って@michihosokawa師匠に助けて貰ったりもしましたが、  
+　エラーと向き合う事も大事なので実際にやってみる経験と、  
+　解決する過程で理解を深められた部分も想像以上に多くありました。
+
+・Python以外にもWepAPI、JSON、Vue.js、Elasticsearchと複数の物に触れられ  
+　特にVue.jsは前から少し興味を持っていた物なのでシンプルなアプリという事で、  
+　全体的に仕組みが見やすく触って学べたのは大きな収穫です。
+
+・TwitterでElasticsearchのコミッターさんと少し関われたりもしました。  
+　  
+
+#### ■ プログラミング以外
+・合宿では、プログラミング以外に大きな物がありました。
+
+みんな良い人達ばかりで普段関わりが無さそうな方と顔見知りになり楽しく話せたり、今ではとても仲の良い人が出来たキッカケでもあり、@michihosokawa師匠と仕事とは関係のない事も沢山話せて、自分にとって今年トップと言っていいほど大きく有意義で最高の2日間でした。また参加したいです！
