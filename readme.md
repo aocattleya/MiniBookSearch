@@ -1,11 +1,11 @@
 ![booksearch](https://user-images.githubusercontent.com/39142850/49347869-33b14780-f6e5-11e8-9e8b-7e9a270c58c8.png)
 
 - [やったこと](#アンカー1)
+- [アプリの機能](#アンカー3)
 - [全体的な仕組み](#アンカー5)
 - [動作環境](#アンカー9)
 - [APIとは](#アンカーa)
 - [開発環境](#アンカー2)
-- [アプリの機能](#アンカー3)
 - [新しく実装した機能](#アンカー4)
 - [基本的な修正箇所](#アンカー6)
 - [苦戦した事](#アンカー7)
@@ -16,6 +16,36 @@
 [@michihosokawa](https://github.com/michihosokawa)さんの『 [書籍管理システム(GitHub) ](https://github.com/michihosokawa/MiniBookManagementSystem)』  
 - 使用されているAPIを「**GoogleBooksAPI**」から「**openBD**」へ書き換える  
 - 新機能『**一覧表示機能**』を追加する  
+
+<h2 id="アンカー3">:green_book: アプリの機能</h2>
+
+- **ISBNコードを入力して書籍の登録**  
+![isbn](https://user-images.githubusercontent.com/39142850/49414130-9d008b80-f7b5-11e8-8684-37599a3fbc9c.png)
+
+ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略）
+
+<img src="https://user-images.githubusercontent.com/39142850/49381027-5e87b400-f756-11e8-9952-7e23301dfb19.png" width="400px">
+
+世界共通で図書（書籍）を認識する為に記載されるコード  
+どこの国のどこの出版社・印刷会社で制作された本の、何というタイトルなのかが分かるように番号をが設定され  
+大体、書籍の裏に書かれています。
+
+- **検索機能**  
+登録した書籍とマッチする検索結果が表示される
+
+![knsk](https://user-images.githubusercontent.com/39142850/49414266-2021e180-f7b6-11e8-9afc-0fbed0b580d3.png)
+
+- **詳細画面**  
+結果をクリックすると「openBD」から受け取ったAPIの書籍情報が表示される
+
+![knskkk](https://user-images.githubusercontent.com/39142850/49414765-d6d29180-f7b7-11e8-91f5-91308a8f732e.png)
+
+<h2 id="アンカー4">:green_book: 新しく実装した機能</h2>
+
+- **一覧表示機能**
+![knskk](https://user-images.githubusercontent.com/39142850/49415597-9de7ec00-f7ba-11e8-8ae6-c9a7c8277400.png)
+
+これまでに登録した書籍をすべて表示させる機能です。
 
 <h2 id="アンカー5">:green_book: 全体的な仕組み</h2>
 
@@ -65,37 +95,6 @@ Elastic社が開発しているオープンソースの全文検索エンジン
 
 - **VSCode（Visual Studio Code）**  
 おすすめのソースコードエディタ、これで書いてます。
-
-<h2 id="アンカー3">:green_book: アプリの機能</h2>
-
-- **ISBNコードを入力して書籍の登録**  
-![isbn](https://user-images.githubusercontent.com/39142850/49414130-9d008b80-f7b5-11e8-8684-37599a3fbc9c.png)
-
-ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略）
-
-<img src="https://user-images.githubusercontent.com/39142850/49381027-5e87b400-f756-11e8-9952-7e23301dfb19.png" width="400px">
-
-世界共通で図書（書籍）を認識する為に記載されるコード  
-どこの国のどこの出版社・印刷会社で制作された本の、何というタイトルなのかが分かるように番号をが設定され  
-大体、書籍の裏に書かれています。
-
-- **検索機能**  
-登録した書籍とマッチする検索結果が表示される
-
-![knsk](https://user-images.githubusercontent.com/39142850/49414266-2021e180-f7b6-11e8-9afc-0fbed0b580d3.png)
-
-- **詳細画面**  
-結果をクリックすると「openBD」から受け取ったAPIの書籍情報が表示される
-
-![knskkk](https://user-images.githubusercontent.com/39142850/49414765-d6d29180-f7b7-11e8-91f5-91308a8f732e.png)
-
-<h2 id="アンカー4">:green_book: 新しく実装した機能</h2>
-
-- **一覧表示機能**
-![knskk](https://user-images.githubusercontent.com/39142850/49415597-9de7ec00-f7ba-11e8-8ae6-c9a7c8277400.png)
-
-これまでに登録した書籍をすべて表示させる機能です。
-
 
 
 <h2 id="アンカー6">:green_book: 基本的な修正箇所</h2>
