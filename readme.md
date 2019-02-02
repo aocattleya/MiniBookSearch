@@ -1,62 +1,55 @@
 ![booksearch](https://user-images.githubusercontent.com/39142850/49347869-33b14780-f6e5-11e8-9e8b-7e9a270c58c8.png)
 
-- [やったこと](#アンカー1)
-- [アプリの機能](#アンカー3)
-- [全体的な仕組み](#アンカー5)
-- [動作環境](#アンカー9)
-- [APIとは](#アンカーa)
-- [開発環境](#アンカー2)
-- [新しく実装した機能](#アンカー4)
-- [基本的な修正箇所](#アンカー6)
-- [苦戦した事](#アンカー7)
-- [全体を通して学べた事](#アンカー8)
+## :green_book: 詳しい内容：Qiita
 
-<h2 id="アンカー1">:green_book: やったこと</h2>
+#### [【Python+Flask】WebAPIを使った簡易書籍管理アプリ【Elasticsearch、Vue.js】](https://qiita.com/aocattleya/items/c374e87b42a14a01e77c)
 
-[@michihosokawa](https://github.com/michihosokawa)さんの『 [書籍管理システム(GitHub) ](https://github.com/michihosokawa/MiniBookManagementSystem)』  
-- 使用されているAPIを「**GoogleBooksAPI**」から「**openBD**」へ書き換える  
-- 新機能『**一覧表示機能**』を追加する  
+こちらに簡易書籍管理システムについての内容をまとめています。
 
-<h2 id="アンカー3">:green_book: アプリの機能</h2>
+## :green_book: 開発環境
 
-- **ISBNコードを入力して書籍の登録**  
-![isbn](https://user-images.githubusercontent.com/39142850/49414130-9d008b80-f7b5-11e8-8684-37599a3fbc9c.png)
+- Python  
+- Flask  
+- Elasticsearch  
+- Vue.js  
+- VSCode（Visual Studio Code）  
 
-ISBNコードとは（**I**nternational **S**tandard **B**ook **N**umberの略）
+## :green_book: アプリ機能
 
-<img src="https://user-images.githubusercontent.com/39142850/49381027-5e87b400-f756-11e8-9952-7e23301dfb19.png" width="400px">
+### 1、書籍の登録  
 
-世界共通で図書（書籍）を認識する為に記載されるコード  
-どこの国のどこの出版社・印刷会社で制作された本の、何というタイトルなのかが分かるように番号をが設定され  
-大体、書籍の裏に書かれています。
+世界共通で図書を認識する為に記載される書籍の裏に書かれている番号です。
 
-- **検索機能**  
+![booksearch](https://user-images.githubusercontent.com/39142850/49347869-33b14780-f6e5-11e8-9e8b-7e9a270c58c8.png)
+
+### 2、書籍の検索  
+
 登録した書籍とマッチする検索結果が表示される
 
 ![knsk](https://user-images.githubusercontent.com/39142850/49414266-2021e180-f7b6-11e8-9afc-0fbed0b580d3.png)
 
-- **詳細画面**  
-結果をクリックすると「openBD」から受け取ったAPIの書籍情報が表示される
+### 3、書籍の詳細表示  
+
+検索結果をクリックすると「openBD」から受け取った書籍情報が表示される
 
 ![knskkk](https://user-images.githubusercontent.com/39142850/49414765-d6d29180-f7b7-11e8-91f5-91308a8f732e.png)
 
-<h2 id="アンカー4">:green_book: 新しく実装した機能</h2>
-
-- **一覧表示機能**
-![knskk](https://user-images.githubusercontent.com/39142850/49415597-9de7ec00-f7ba-11e8-8ae6-c9a7c8277400.png)
+### 4、一覧表示機能
 
 これまでに登録した書籍をすべて表示させる機能です。
 
-<h2 id="アンカー5">:green_book: 全体的な仕組み</h2>
+![knskk](https://user-images.githubusercontent.com/39142850/49415597-9de7ec00-f7ba-11e8-8ae6-c9a7c8277400.png)
+
+## :green_book: 全体的な仕組み
 
 ![minibooksearch](https://user-images.githubusercontent.com/39142850/49472249-4b5a0e80-f852-11e8-9022-4596ca655e19.png)
 
-<h2 id="アンカー9">:green_book: 動作環境</h2>
+## :green_book: 動作環境
 
 Python（Flask） ＋ Elasticsearch　内部で『openBD』を呼び出して動作しています。
 
 - Java1.8
-	- JREではなくJDK
+	- Elasticsearchを動作させるのに必要（JREではなくJDK）
 - Elasticsearch6.3
 	- 2つのプラグインをインストール  
 		- ICU Analysis
@@ -65,327 +58,14 @@ Python（Flask） ＋ Elasticsearch　内部で『openBD』を呼び出して動
 - pip install elasticsearch
 - pip install Flask
 
-<h2 id="アンカーa">:globe_with_meridians: APIとは</h2>
+## :green_book: 使用方法
+**1、python initialize.py**  
+Elasticseachの初期化、「setting.json」「mapping.json」を参照しています。  
+すでに、当該INDEXが作成されていた場合には、そのINDEXは削除されます。
 
->Application Programming Interfaceの略  
->何かしらのサービス提供者が、そのサービスを利用するために提供するインタフェースのこと  
+**2、python app.py**  
+Flask＋アプリの実行、次のような画面が出れば成功  
+![Screenshot_20181219-214044.jpg](https://qiita-image-store.s3.amazonaws.com/0/307359/9a02ff2e-5b57-f4d0-43f8-f4e9921c6473.jpeg)
 
-
-openBDの場合は、書籍情報や書影をだれでも自由に使える  
-例：https://api.openbd.jp/v1/get?isbn=9784822292270
-
-![2018-12-04 17 09 05](https://user-images.githubusercontent.com/39142850/49427693-5461c600-f7e7-11e8-8cd6-fffb9737f73e.png)
-
-そしてJSON整形サイトなどを利用して取得したい項目を選ぶ、今回アプリの結果として表示させる物となる
-
-![2018-12-04 17 12 19](https://user-images.githubusercontent.com/39142850/49427857-c76b3c80-f7e7-11e8-90e2-e752ef1b906d.png)
-
-
-<h2 id="アンカー2">:green_book: 開発環境</h2>
-
-- **Python**  
-プログラミング言語
-- **Flask**  
-Python用の軽量なウェブアプリケーションフレームワーク
-- **Elasticsearch**  
-Elastic社が開発しているオープンソースの全文検索エンジン  
-大量にあるドキュメントデータの中から目的のワードを含むデータを検索することが出来る
-- **Vue.js**  
-オープンソースのJavaScriptフレームワーク
-
-- **VSCode（Visual Studio Code）**  
-おすすめのソースコードエディタ、これで書いてます。
-
-
-<h2 id="アンカー6">:green_book: 基本的な修正箇所</h2>
-
-### ■ Elasticsearchの定義ファイルの変更  
-- mapping.json  
-どちらも書籍データなのでisbn,titleなどいくつか名前が同じ
-
-```javascript
-{
-    "googlebooks": {
-        "properties": {
-            "isbn" : {
-                "type": "text",
-                "index": true
-            },
-            "title": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
-            "authors": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
-            ・
-            ・
-            ・
-```
-↓
-```javascript
-{
-    "openbd": {
-        "properties": {
-            "isbn" : {
-                "type": "text",
-                "index": true
-            },
-            "title": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
-            "publisher": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
-            ・
-            ・
-            ・
-```
-
-### ■ Elasticsystem関連の定義名をopenbdに変更  
- - initialaize.py
- - app.py
-
-```python
-# Elasticsearch
- es = ElasticsearchWrapper('googlebooks', 'googlebooks-index')
-```
-↓
-```python
-# Elasticsearch
- es = ElasticsearchWrapper('openbd', 'openbd-index')
-```
-
-### ■ WebAPIの呼び出しを変更  
-- APIGoogleBooks.py
-```
-# WebAPIのURLに引数文字列を追加
-    url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn
-```
-↓
-```
-# WebAPIのURLに引数文字列を追加
-    url = 'https://api.openbd.jp/v1/get?isbn=' + isbn
-```
-
-### ■ 「WebAPIのJSON」を「自分のJSON」に詰め替える  
-- APIGoogleBooks.py
-```python
-json_data = {}
-        json_data['title'] = json_api_data['items'][0]['volumeInfo']['title']
-        json_data['authors'] = json_api_data['items'][0]['volumeInfo']['authors']
-        json_data['publisher'] = json_api_data['items'][0]['volumeInfo']['publisher']
-        json_data['publishedDate'] = json_api_data['items'][0]['volumeInfo']['publishedDate']
-        json_data['description'] = json_api_data['items'][0]['volumeInfo']['description']
-        json_data['thumbnail'] = json_api_data['items'][0]['volumeInfo']['imageLinks']['thumbnail']
-```
-↓
-```python
-json_data = {}
-        json_data['isbn'] = json_api_data[0]['summary']['isbn']
-        json_data['title'] = json_api_data[0]['summary']['title']
-        json_data['publisher'] = json_api_data[0]['summary']['publisher']
-        json_data['pubdate'] = json_api_data[0]['summary']['pubdate']
-        json_data['cover'] = json_api_data[0]['summary']['cover']
-        json_data['author'] = json_api_data[0]['summary']['author']
-```
-
-### ■ 検索画面で指定された項目を検索用dictionaryに詰め替える
-- app.py
-
-```python
- # 本家77行目前後
-isbn = request.args.get('isbn', default=None)
-	title = request.args.get('title', default=None)
-	author = request.args.get('author', default=None)
-   ・
-   ・
-
-	items = {}
-	if isbn != None:
-		items['isbn'] = isbn
-	if title != None:
-		items['title'] = title
-	if author != None:
-		items['authors'] = author
-   ・
-   ・
-```
-↓
-```python
-# 90行目前後
-isbn = request.args.get('isbn', default=None)
-	title = request.args.get('title', default=None)
-	publisher = request.args.get('publisher', default=None)
-   ・
-   ・
-
-	items = {}
-	if isbn != None:
-		items['isbn'] = isbn
-	if title != None:
-		items['title'] = title
-	if publisher != None:
-		items['publisher'] = publisher
-   ・
-   ・
-```
-
-
-<h2 id="アンカー7">:green_book: 苦戦した事</h2>
-
-### １、戻ってくるJSONデータの型が「GoogleBooksAPI」と「openBD」で違う  
-- GoogleBooksAPIの場合、「 { 」から始まる  
-> ![2018-12-04 14 31 40](https://user-images.githubusercontent.com/39142850/49421013-72243080-f7d1-11e8-8ac4-f66918d83010.png)
-- openBDの場合、「 [ 」から始まる  
->![2018-12-04 14 31 13](https://user-images.githubusercontent.com/39142850/49421014-72243080-f7d1-11e8-844a-8f64c612dbf2.png)
-
-@michisohokawaさんのGoogleBooksAPIの場合は、Vue.js用に「 {} 」をfor文を使い「 [] 」へ変換している  
-つまり不要コードを探し削除して関連してくるエラーを消していく
-
-- main.js(109行あたり)
-```javascript
-        let results_old = this.results;
-        this.results = [];
-        for (let value of response.data) {
-          this.results.push(value);
-        }
-```
-
-#### 必ずこの問題が出る訳ではない
-openBD以前に試しで「YouTubeチャンネル情報API」に書き換えて作ってみたことがある。  
-こちらの場合は同じGoogleのおかげか「 { 」で始まっている  
-> ![2018-12-04 15 16 15](https://user-images.githubusercontent.com/39142850/49422629-f7aadf00-f7d7-11e8-8202-853c3a32e79d.png)
-
-なのでYouTubeAPIの場合は、michihosokawaさんとほぼ同じ処理のまま  
-JSONのマッピングや定義部分をYouTube用に書き換えればいい
-
-
-### ２、一覧表示機能の実装
-
-![itiran](https://user-images.githubusercontent.com/39142850/49508986-877b8680-f8c7-11e8-9c8e-9f338c1e923e.png)
-
-
-### 仕組み
-
-書籍を登録する時に 1 というダミーの値をそれぞれに忍ばせる。  
-一覧表示ボタンで呼び出した時に 1 という値が付いている書籍情報を呼び出す。  
-つまりすべてが表示される。
-
-- mapping.json
-
-```python
-            },
-            "author": {
-                "type": "text",
-                "index": true,
-                "analyzer": "my_analyzer"
-            },
-            "dummy": {
-                "type": "text",
-                "index": true
-            }
-        }
-    }
-}
-```
-
-- app.py
-
-登録時にダミーの値 1 を忍ばせる
-
-```python
-def regist():
-	'''
-	ISBNに対応する書籍情報を取得して、Elasticsearchに登録
-	'''
-	# パラメータからISBNコードを取得
-	isbn = request.args.get('isbn', default=None)
-	# logging.debug(isbn)
-
-
-
-	# 必要な情報を取得する
-	json_data = openBD().get_json(isbn) if isbn else {}
-
-	if json_data == None:
-		json_data = {}
-	
-	if len(json_data) > 0:
-		# Elasticsearch
-		es = ElasticsearchWrapper('openbd', 'openbd-index')
-		
-		json_data["dummy"] = "1"　　 # ここに 1 を忍ばせる
-    
-		# 追加
-		es.insert_one(json_data)
-
-	# dict型をJSON型のレスポンスに変換
-	response = jsonify(json_data)
-
-	return response
-```
-
-- app.py
-
-1 という値のある書籍すべてを表示させる
-
-```python
-@app.route("/list")
-def list():
-	'''
-	検索
-	'''
-	# 検索の項目名、項目値のDictionary
-	items = {}
-	items["dummy"] = "1"
-
-	# Elasticsearch
-	es = ElasticsearchWrapper('openbd', 'openbd-index')
-	# 検索
-	json_data = es.search_and(items)
-
-	# dict型をJSON型のレスポンスに変換
-	response = jsonify(json_data)
-
-	return response
-```
-
-#### この一覧表示機能について
-
-@michihosokawa師匠「設計としては美しくない」
-
-書籍すべてを表示させる為にあるべきでない情報を登録時に忍ばせているので、  
-設計としてはあまり好ましくない、今回は2日という期間内で作るという目標があったが、  
-本来は、Elasticsearchの全検索search_allを使って全検索させれば良さそうです。（[参考](https://github.com/asuetomi/BookDB/blob/master/app.py)）
-
-<h2 id="アンカー8">:thought_balloon: 全体を通しての感想</h2>
-
-#### ■ 開発合宿
-
-・今回やってみたのは開発合宿での成果物としての取り組みでした。  
-　そして書籍管理システムを使って初めてのPythonのコードで作られたアプリに、  
-　真面目に向き合う事が出来てとても良い経験になりました。
-
-・合宿ではエラー地獄に陥って@michihosokawa師匠に助けて貰ったりもしましたが、  
-　エラーと向き合う事も大事なので実際にやってみる経験と、  
-　解決する過程で理解を深められた部分も想像以上に多くありました。
-
-・Python以外にもWepAPI、JSON、Vue.js、Elasticsearchと複数の物に触れられ  
-　特にVue.jsは前から少し興味を持っていた物なのでシンプルなアプリという事で、  
-　全体的に仕組みが見やすく触って学べたのは大きな収穫です。
-
-・TwitterでElasticsearchのコミッターさんと少し関われたりもしました。  
-　  
-
-#### ■ プログラミング以外
-・合宿では、プログラミング以外に大きな物がありました。
-
-みんな良い人達ばかりで普段関わりが無さそうな方と顔見知りになり楽しく話せたり、今ではとても仲の良い人が出来たキッカケでもあり、@michihosokawa師匠と仕事とは関係のない事も沢山話せて、自分にとって今年トップと言っていいほど大きく有意義で最高の2日間でした。また参加したいです！
+**3、ブラウザでアクセス**  
+http://localhost:8080
